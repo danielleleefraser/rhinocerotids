@@ -26,7 +26,13 @@ moves.append( mvSlide(origin_time, delta=0.01, weight=5.0) )
 moves.append( mvSlide(origin_time, delta=0.1,  weight=5.0) )
 moves.append( mvSlide(origin_time, delta=1,    weight=5.0) ) 
 
-fbd_tree ~ dnFBDP(origin=origin_time, lambda=speciation_rate, mu=extinction_rate, psi=psi, rho=rho, taxa=taxa)
+fbd_dist = dnBDSTP(r=0, origin=origin_time, lambda=speciation_rate, mu=extinction_rate, phi=psi, Phi=rho, taxa=taxa)
+
+clade_rhinocerotidae = clade("Aceratherium_incisivum", "Acerorhinus_zernowi", "Alicornops_simorrense", "Amphicaenopus_platycephalus", "Aphelops_megalodus", "Aprotodon_fatehjangense", "Brachypotherium_brachypus", "Bugthirhinus_praecursor", "Caementodon_oettingenae", "Ceratotherium_neumayri", "Ceratotherium_simum", "Chilotherium_anderssoni", "Devon_rhino", "Diaceratherium_aginense", "Diceratherium_armatum", "Dicerorhinus_sumatrensis", "Diceros_bicornis", "Dihoplus_schleiermacheri", "Elasmotherium_sibiricum", "Epiaceratherium_bolcense", "Epiaceratherium_delemontense", "Epiaceratherium_magnum", "Epiaceratherium_naduongense", "Floridaceras_whitei", "Gaindatherium_browni", "Hispanotherium_matritense", "Hoploaceratherium_tetradactylum", "Huaqingtherium_lintungense", "Iranotherium_morgani", "Kenyatherium_bishopi", "Lartetotherium_sansaniense", "Menoceras_arikarense", "Mesaceratherium_gaimersheimense", "Molassitherium_albigense", "Parelasmotherium_schansiense", "Penetrigonias_dakotensis", "Peraceras_profectum", "Persiatherium_rodleri", "Plesiaceratherium_gracile", "Pleuroceros_pleuroceros", "Procoelodonta_mongoliense", "Prosantorhinus_douvillei", "Protaceratherium_minutum", "Rhinoceros_sondaicus", "Rhinoceros_unicornis", "Ronzotherium_filholi", "Shansirhinus_ringstroemi", "Shennongtherium_hypsodontus", "Sinotherium_lagrelii", "Subhyracodon_occidentalis", "Teleoceras_fossiger", "Teletaceras_radinskyi", "Trigonias_osborni", "Uintaceras_radinskyi", "Nesorhinus_philippinensis","Coelodonta_antiquitatis")
+
+constraints = v(clade_rhinocerotidae)
+fbd_tree ~ dnConstrainedTopology(fbd_dist, constraints=constraints)
+
 
 moves.append( mvFNPR(fbd_tree, weight=15.0) )
 moves.append(mvCollapseExpandFossilBranch(fbd_tree, origin_time, weight=6.0, tuneTarget=1.0))

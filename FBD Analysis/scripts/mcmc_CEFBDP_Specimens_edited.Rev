@@ -1,7 +1,7 @@
 
-taxa <- readTaxonData("data/rhinos_taxa.tsv")
+taxa <- readTaxonData("data/rhinos_taxa2.tsv")
 cytb <- readDiscreteCharacterData("data/rhinos_cytb.nex")
-morpho <- readDiscreteCharacterData("data/rhinos_morphology4.nex")
+morpho <- readDiscreteCharacterData("data/rhinos_morphology7.nex")
 cytb.addMissingTaxa( taxa )
 morpho.addMissingTaxa( taxa )
 n_taxa <- taxa.size()
@@ -16,9 +16,9 @@ mymodel = model(sf)
 
 monitors = VectorMonitors()
 
-monitors.append( mnModel(filename="output/rhinos_April2024.log", printgen=10, append=TRUE) )
+monitors.append(mnModel(filename="output/rhinos_September2024_2_becker_Nov27.log", printgen=10, append=FALSE) )
 
-monitors.append( mnFile(filename="output/rhinos_April2024.trees", printgen=10,append=TRUE, fbd_tree) )
+monitors.append( mnFile(filename="output/rhinos_September2024_2_becker_Nov27.trees", printgen=10,append=FALSE, fbd_tree) )
 
 monitors.append( mnScreen(printgen=10, age_extant, num_samp_anc, origin_time) )
 monitors.append( mnScreen(printgen=100))
@@ -29,5 +29,7 @@ mymcmc.run(generations=1000000)
 
 q()
 
-trace = readTreeTrace("output/rhinos_April2024.trees")
-mccTree(trace, file="output/rhinos_April2024.mcc.tre")
+
+trace = readTreeTrace("output/rhinos_September2024_2_becker_Nov27.trees")
+mccTree(trace, file="output/rhinos_becker_Nov27_FINAL.mcc.tre")
+mccTree(trace, file="output/rhinos_September2024_2_becker_25burn.mcc.tre")
